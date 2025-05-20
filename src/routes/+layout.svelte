@@ -1,7 +1,12 @@
 <script lang="ts">
-	import '../app.css';
+	import '~/app.css';
+	import { Header } from '~/widgets/header';
 
 	let { children } = $props();
 </script>
 
-{@render children()}
+<Header />
+
+<main>
+	{@render children()}
+</main>
