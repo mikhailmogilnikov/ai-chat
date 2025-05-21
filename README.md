@@ -1,38 +1,125 @@
-# sv
+# AI Chat Frontend
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A modern frontend application for AI Chat built with SvelteKit and Bun.
 
-## Creating a project
+## Tech Stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **SvelteKit**: Frontend framework
+- **Bun**: JavaScript runtime and package manager
+- **TypeScript**: Type-safe JavaScript
+- **Tailwind CSS**: Utility-first CSS framework
+- **Vite**: Build tool
 
-```bash
-# create a new project in the current directory
-npx sv create
+## Getting Started
 
-# create a new project in my-app
-npx sv create my-app
-```
+### Prerequisites
 
-## Developing
+- [Bun](https://bun.sh/) (>= 1.0.0)
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Installation
 
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
+Clone the repository and install dependencies:
 
 ```bash
-npm run build
+# Clone the repository
+git clone <repository-url>
+cd ai-chat
+
+# Install dependencies
+bun install
 ```
 
-You can preview the production build with `npm run preview`.
+### Development
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Run the development server:
+
+```bash
+bun run dev
+```
+
+The application will be available at `http://localhost:5173`.
+
+### Building for Production
+
+```bash
+bun run build
+```
+
+### Previewing the Production Build
+
+```bash
+bun run preview
+```
+
+## Docker
+
+### Building the Docker Image
+
+```bash
+docker build -t ai-chat-frontend .
+```
+
+### Running the Container
+
+```bash
+docker run -p 80:80 ai-chat-frontend
+```
+
+The application will be available at `http://localhost`.
+
+### Docker Compose Integration
+
+The frontend container can be integrated with a backend using Docker Compose. The Nginx server within the frontend container doesn't conflict with any proxy Nginx used in a Docker Compose setup.
+
+Example Docker Compose configuration:
+
+```yaml
+version: '3'
+services:
+  frontend:
+    image: ai-chat-frontend
+    networks:
+      - app-network
+    
+  backend:
+    image: backend-image
+    networks:
+      - app-network
+    
+  nginx-proxy:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-network
+    depends_on:
+      - frontend
+      - backend
+
+networks:
+  app-network:
+```
+
+## Project Structure
+
+```
+ai-chat/
+├── src/            # Application source code
+│   ├── routes/     # SvelteKit routes
+│   ├── lib/        # Shared components and utilities
+│   └── app.html    # HTML template
+├── static/         # Static assets
+├── .svelte-kit/    # SvelteKit generated files
+└── build/          # Production build output
+```
+
+## Development Commands
+
+- `bun run dev` - Start development server
+- `bun run build` - Build for production
+- `bun run preview` - Preview production build
+- `bun run lint` - Lint code
+- `bun run format` - Format code with Prettier
+
